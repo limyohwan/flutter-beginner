@@ -5,6 +5,7 @@ void main() {
 }
 
 class App extends StatefulWidget {
+  // statefulWidget은 살아있음, 생명주기를 가짐, 이벤트에 반응함
   const App({super.key});
 
   @override
@@ -12,6 +13,13 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool showTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
   // int counter = 0; // 데이터이며 dart 클래스의 프로퍼티임, 플러터의 기능은 아님
   // List<int> numbers = [];
 
@@ -35,13 +43,16 @@ class _AppState extends State<App> {
           ),
         ),
       ), // 애플리케이션을 위한 색상 스타일 등을 정의
-      home: const Scaffold(
-        backgroundColor: Color(0xFFF4EDDB),
+      home: Scaffold(
+        backgroundColor: const Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MyLargeTitle(),
+              showTitle ? const MyLargeTitle() : const Text('nothing'),
+              IconButton(
+                  onPressed: toggleTitle,
+                  icon: const Icon(Icons.remove_red_eye))
               // for (var n in numbers) Text('$n'),
               // Text(
               //   '$counter',
@@ -62,14 +73,36 @@ class _AppState extends State<App> {
   }
 }
 
-class MyLargeTitle extends StatelessWidget {
+class MyLargeTitle extends StatefulWidget {
   const MyLargeTitle({
     super.key,
   });
 
   @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  int count = 0;
+
+  @override
+  void initState() {
+    // 부모의 의존적인 변수를 초기화해야하는 경우 사용, build 메서드보다 먼저 호출되며 오직 단한번 호출됨
+    super.initState();
+    print('initState');
+  }
+
+  @override
+  void dispose() {
+    // 위젯이 스크린에서 제거될때 실행함, 무언가를 취소하는 메서드
+    super.dispose();
+    print('dispose');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // BuildContext는 모든 상위 요소들(widget tree)에 대한 정보를 담고있음
+    print('build');
+    // BuildContext는 모든 상위 요소들(widget tree)에 대한 정보를 담고있음, 실제로는 더 복잡함
     return Text(
       'My Large Title',
       style: TextStyle(
