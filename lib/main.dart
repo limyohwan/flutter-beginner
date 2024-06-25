@@ -12,12 +12,13 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int counter = 0;
+  int counter = 0; // 데이터이며 dart 클래스의 프로퍼티임, 플러터의 기능은 아님
+  List<int> numbers = [];
 
   void onClicked() {
     setState(() {
       // setState 함수를 사용하여 상태 변화를 알려서 새로고침할 수 있도록 함
-      counter++;
+      numbers.add(counter++);
     });
     // counter++;
     // setState(() {}); setState를 호출하면 새롭게 build메서드를 호출하는 것이므로 굳이 안에 상태 변경된 값을 넣지 않아도 되지만 넣는것이 좋다.
@@ -38,12 +39,13 @@ class _AppState extends State<App> {
                   fontSize: 30,
                 ),
               ),
-              Text(
-                '$counter',
-                style: const TextStyle(
-                  fontSize: 30,
-                ),
-              ),
+              for (var n in numbers) Text('$n'),
+              // Text(
+              //   '$counter',
+              //   style: const TextStyle(
+              //     fontSize: 30,
+              //   ),
+              // ),
               IconButton(
                 iconSize: 40,
                 onPressed: onClicked,
