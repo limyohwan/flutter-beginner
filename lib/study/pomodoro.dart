@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/screens/pomodoro_home_screen.dart';
+import 'package:toonflix/study/pomodoro_home_screen.dart';
 
 class Pomodoro extends StatelessWidget {
   const Pomodoro({super.key});
