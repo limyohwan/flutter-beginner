@@ -85,19 +85,16 @@ class _MyLargeTitleState extends State<MyLargeTitle> {
   void initState() {
     // 부모의 의존적인 변수를 초기화해야하는 경우 사용, build 메서드보다 먼저 호출되며 오직 단한번 호출됨
     super.initState();
-    print('initState');
   }
 
   @override
   void dispose() {
     // 위젯이 스크린에서 제거될때 실행함, 무언가를 취소하는 메서드
     super.dispose();
-    print('dispose');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     // BuildContext는 모든 상위 요소들(widget tree)에 대한 정보를 담고있음, 실제로는 더 복잡함
     return Text(
       'My Large Title',
