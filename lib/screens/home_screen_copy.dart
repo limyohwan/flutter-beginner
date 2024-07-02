@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_model.dart';
 import 'package:toonflix/services/api_service.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenCopy extends StatefulWidget {
+  const HomeScreenCopy({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenCopy> createState() => _HomeScreenCopyState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenCopyState extends State<HomeScreenCopy> {
+  // StatefulWidget에서 data를 fetch하는 기본적인 방법
   List<WebtoonModel> webtoons = [];
   bool isLoading = true;
 
