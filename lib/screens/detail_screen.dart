@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/services/api_service.dart';
@@ -21,6 +22,22 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (likedToons.contains(widget.id) == true) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      await prefs.setStringList('likedToons', []);
+    }
+  }
 
   // statefulWidget으로 변환한 이유는 ApiService에서 id 값을 필요로 하기 때문에 initState를 활용해야함(homeScreen과 비교)
   @override
@@ -28,6 +45,22 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+    initPrefs();
+  }
+
+  onHeartTap() async {
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (isLiked) {
+        likedToons.remove(widget.id);
+      } else {
+        likedToons.add(widget.id);
+      }
+      await prefs.setStringList('likedToons', likedToons);
+      setState(() {
+        isLiked = !isLiked;
+      });
+    }
   }
 
   @override
@@ -42,9 +75,9 @@ class _DetailScreenState extends State<DetailScreen> {
         foregroundColor: Colors.green,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.favorite_outline_outlined,
+            onPressed: onHeartTap,
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_outline,
             ),
           ),
         ],
