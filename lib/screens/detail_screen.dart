@@ -40,6 +40,14 @@ class _DetailScreenState extends State<DetailScreen> {
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.favorite_outline_outlined,
+            ),
+          ),
+        ],
         title: Text(
           widget.title,
           style: const TextStyle(
